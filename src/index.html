@@ -1,0 +1,14 @@
+---json
+{
+    "layout": "layouts/base.njk"
+}
+---
+
+<h1>Netlify with MongoDB Comments Example</h1>
+
+<ul>
+    {% for post in collections.posts %}
+        <li><a href="{{ post.url | url }}">{{ post.url }}</a></li>
+    {% endfor %}
+</ul>
+

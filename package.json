@@ -1,0 +1,21 @@
+{
+  "name": "netlify-eleventy-comments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf public",
+    "serve": "npm run clean; eleventy --serve",
+    "build": "npm run clean; eleventy --input src --output public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.0",
+    "@11ty/eleventy-cache-assets": "^2.3.0",
+    "axios": "^0.26.0",
+    "cross-var": "^1.1.0",
+    "mongodb-realm-cli": "^2.3.5"
+  }
+}

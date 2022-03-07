@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body onload="getCommentsForArticle()">
+        {{ content | safe }}
+        <div>
+            <h2>Comments</h2>
+            <div id="comments">
+                {% for comment in (comments | getCommentsForUrl(page.url)) %}
+                    <div id="comment-{{ comment._id }}" style="padding: 10px 0">
+                        <div>{{ comment.username }}</div>
+                        <div>{{ comment.comment }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div style="padding: 10px 0">
+            <input id="comment_username" name="comment_username" hint="username" value="" />
+            <br />
+            <textarea id="comment_text" name="comment_text" hint="comment"></textarea>
+            <br />
+            <button onclick="createNewComment()">Create Comment</button>
+        </div>
+        <script>
+
+            let encodedPageUrl = encodeURIComponent("{{ page.url }}");
+            let encodedLastBuilt = encodeURIComponent("{{ config.lastBuildDate }}");
+
+            function getCommentsForArticle() {
+                fetch(`/.netlify/functions/get_comment?url=${encodedPageUrl}&last_built=${encodedLastBuilt}`)
+                .then(response => response.json())
+                .then(response => {
+                    response.forEach(comment => {
+                        const parentTag = document.createElement("div");
+                        const usernameTag = document.createElement("div");
+                        const commentTag = document.createElement("div");
+                        usernameTag.innerHTML = comment.username;
+                        commentTag.innerHTML = comment.comment;
+                        parentTag.appendChild(usernameTag);
+                        parentTag.appendChild(commentTag);
+                        parentTag.style.padding = "10px 0";
+                        document.getElementById("comments").appendChild(parentTag);
+                    })
+                })
+            }
+
+            function createNewComment() {
+                const username = document.getElementById("comment_username").value;
+                const comment = document.getElementById("comment_text").value;
+                const url = "{{ page.url }}";
+                const parentTag = document.createElement("div");
+                const usernameTag = document.createElement("div");
+                const commentTag = document.createElement("div");
+                usernameTag.innerHTML = username;
+                commentTag.innerHTML = comment;
+                parentTag.appendChild(usernameTag);
+                parentTag.appendChild(commentTag);
+                parentTag.style.padding = "10px 0";
+                document.getElementById("comments").appendChild(parentTag);
+                fetch(`/.netlify/functions/create_comment`, {
+                    "method": "POST",
+                    "body": JSON.stringify({
+                        "username": username,
+                        "comment": comment,
+                        "url": url
+                    })
+                })
+                .then(response => response.json())
+                .then(response => {
+                    document.getElementById("comment_username").value = "";
+                    document.getElementById("comment_text").value = "";
+                });
+            }
+        </script>
+    </body>
+</html>
