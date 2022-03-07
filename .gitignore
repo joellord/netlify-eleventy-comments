@@ -1,6 +1,6 @@
 # Local Netlify folder
-.netlify
+
 node_modules
 keys.txt
 .cache
-.netlify
+
