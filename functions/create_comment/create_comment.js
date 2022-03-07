@@ -11,7 +11,7 @@ const handler = async (event) => {
                 "api-key": `${process.env.MONGODB_DATA_API_KEY}`
             },
             "data": {
-                "dataSource": "examples",
+                "dataSource": "Cluster0",
                 "database": "netlify",
                 "collection": "comments",
                 "document": payload

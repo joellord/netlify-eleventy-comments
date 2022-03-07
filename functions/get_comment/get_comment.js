@@ -1,6 +1,10 @@
 const axios = require("axios");
+const ENDPOINT = "https://data.mongodb-api.com/app/data-nkpsw/endpoint/data/beta";
+const API_KEY = "B1exsbAP0cJF329eTKZXirCivq7dGArYiHS3iPmxuvnyVeN5H79VqvzvwB6fc0LH";
+
 
 const handler = async (event) => {
+  console.log("HERE");
     try {
         
         const commentFilter = {};
@@ -17,12 +21,12 @@ const handler = async (event) => {
 
         const response = await axios({
             "method": "POST",
-            "url": `https://data.mongodb-api.com/app/${process.env.MONGODB_DATA_APP_ID}/endpoint/data/beta/action/find`,
+            "url": `${ENDPOINT}/action/find`,
             "headers": {
-                "api-key": `${process.env.MONGODB_DATA_API_KEY}`
+                "api-key": `${API_KEY}`
             },
             "data": {
-                "dataSource": "examples",
+                "dataSource": "Cluster0",
                 "database": "netlify",
                 "collection": "comments",
                 "filter": commentFilter
